@@ -1,20 +1,15 @@
 import { Router } from 'express';
+import User from '../models/User';
 
 const userRouter = Router();
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-};
 
 let users: User[] = [];
 
 userRouter.post('/', (req, res) => {
-  const { id, name, email } = req.body;
+  const { name, email } = req.body;
+  const newUser = new User(name, email);
+  users.push(newUser);
 
-  // users.push({ id, name, email });
-  users = [...users, { id, name, email }];
   return res.json({ message: 'User create' });
 });
 

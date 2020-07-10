@@ -1,4 +1,5 @@
-import { uuid } from 'uuid4';
+import { uuid } from 'uuidv4';
+
 class Issue {
   id: string;
 
