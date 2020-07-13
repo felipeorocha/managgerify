@@ -9,7 +9,7 @@ class Issue {
 
   date: Date;
 
-  constructor(owner: string, message: string, date: Date) {
+  constructor({ owner, message, date }: Omit<Issue, 'id'>) {
     this.id = uuid();
     this.owner = owner;
     this.message = message;

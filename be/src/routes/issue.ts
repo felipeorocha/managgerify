@@ -7,13 +7,14 @@ const issuesRepository = new IssuesRepository();
 
 issueRouter.post('/', (req, res) => {
   const { owner, message, date } = req.body;
-  const parsedDate = startOfHour(parseISO(date)); // "2020-07-10T20:00:00" - "2020-07-12T03:00:00.000Z"
+  // "2020-07-10T20:00:00" - "2020-07-12T03:00:00.000Z"
+  const parsedDate = startOfHour(parseISO(date));
 
   if (issuesRepository.findByDate(parsedDate)) {
     return res.status(400).json({ message: 'Hour already booked' });
   }
 
-  issuesRepository.create(owner, message, parsedDate);
+  issuesRepository.create({ owner, message, date: parsedDate });
 
   return res.json({ message: 'Created' });
 });

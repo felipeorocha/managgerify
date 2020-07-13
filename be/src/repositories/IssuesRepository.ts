@@ -1,5 +1,11 @@
-import Issue from '../models/Issue';
 import { isEqual } from 'date-fns';
+import Issue from '../models/Issue';
+
+interface CreateIssueDTO {
+  owner: string;
+  message: string;
+  date: Date;
+}
 
 class IssuesRepository {
   private issues: Issue[];
@@ -14,8 +20,9 @@ class IssuesRepository {
     return findIssue || null;
   }
 
-  public create(owner: string, message: string, date: Date): Issue {
-    const issue = new Issue(owner, message, date);
+  public create(data: CreateIssueDTO): Issue {
+    const { owner, message, date } = data;
+    const issue = new Issue({ owner, message, date });
 
     this.issues.push(issue);
 
