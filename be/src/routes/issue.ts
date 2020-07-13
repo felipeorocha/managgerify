@@ -1,29 +1,31 @@
 import { Router } from 'express';
-import { startOfHour, parseISO, isEqual } from 'date-fns';
-import Issue from '../models/Issue';
+import { startOfHour, parseISO } from 'date-fns';
+import IssuesRepository from '../repositories/IssuesRepository';
 
 const issueRouter = Router();
-
-const issues: Issue[] = [];
+const issuesRepository = new IssuesRepository();
 
 issueRouter.post('/', (req, res) => {
   const { owner, message, date } = req.body;
-  const parsedDate = startOfHour(parseISO(date)); // "2020-07-10T20:00:00"
-  const findIssueInSameDate = issues.find(appo => isEqual(parsedDate, appo.date));
+  const parsedDate = startOfHour(parseISO(date)); // "2020-07-10T20:00:00" - "2020-07-12T03:00:00.000Z"
 
-  if (findIssueInSameDate) {
+  if (issuesRepository.findByDate(parsedDate)) {
     return res.status(400).json({ message: 'Hour already booked' });
   }
 
-  const issue = new Issue(owner, message, date);
-
-  issues.push(issue);
+  issuesRepository.create(owner, message, parsedDate);
 
   return res.json({ message: 'Created' });
 });
 
 issueRouter.get('/', (req, res) => {
-  return res.json(issues);
+  return res.json(issuesRepository.index());
+});
+
+issueRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  return res.json(issuesRepository.indexById(id));
 });
 
 export default issueRouter;
