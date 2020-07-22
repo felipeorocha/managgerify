@@ -16,8 +16,8 @@ issueRouter.post('/', (req, res) => {
     createIssueService.execute({ owner, message, date: parseDateIso });
 
     return res.json({ message: 'Created' });
-  } catch (e) {
-    return res.status(400).json(e.message);
+  } catch (err) {
+    return res.status(400).json(err.message);
   }
 });
 
