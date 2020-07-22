@@ -1,22 +1,24 @@
 import { Router } from 'express';
-import { startOfHour, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import IssuesRepository from '../repositories/IssuesRepository';
+import CreateIssueService from '../services/createIssueService';
 
 const issueRouter = Router();
 const issuesRepository = new IssuesRepository();
+const createIssueService = new CreateIssueService(issuesRepository);
 
 issueRouter.post('/', (req, res) => {
-  const { owner, message, date } = req.body;
-  // "2020-07-10T20:00:00" - "2020-07-12T03:00:00.000Z"
-  const parsedDate = startOfHour(parseISO(date));
+  try {
+    const { owner, message, date } = req.body;
+    // "2020-07-10T20:00:00" - "2020-07-12T03:00:00.000Z"
+    const parseDateIso = parseISO(date);
 
-  if (issuesRepository.findByDate(parsedDate)) {
-    return res.status(400).json({ message: 'Hour already booked' });
+    createIssueService.execute({ owner, message, date: parseDateIso });
+
+    return res.json({ message: 'Created' });
+  } catch (e) {
+    return res.status(400).json(e.message);
   }
-
-  issuesRepository.create({ owner, message, date: parsedDate });
-
-  return res.json({ message: 'Created' });
 });
 
 issueRouter.get('/', (req, res) => {
