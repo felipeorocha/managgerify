@@ -20,6 +20,19 @@ class UsersRepository {
 
     return user;
   }
+
+  public index(): User[] {
+
+    return this.users;
+  }
+
+  public indexById(id: string): User {
+    const userId = this.users.findIndex(user => user.id === id);
+
+    const userFound = this.users[userId];
+
+    return userFound;
+  }
 }
 
 export default UsersRepository;
