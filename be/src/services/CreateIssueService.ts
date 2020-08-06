@@ -10,7 +10,7 @@ interface Request {
 
 class CreateIssueService {
   private issuesRepository: IssuesRepository;
-
+  // Dependency Inversion
   constructor(issuesRepository: IssuesRepository){
     this.issuesRepository = issuesRepository;
   }
