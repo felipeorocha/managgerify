@@ -20,8 +20,7 @@ class IssuesRepository {
     return findIssue || null;
   }
 
-  public create(data: CreateIssueDTO): Issue {
-    const { owner, message, date } = data;
+  public create({ owner, message, date }: CreateIssueDTO): Issue {
     const issue = new Issue({ owner, message, date });
 
     this.issues.push(issue);
