@@ -5,6 +5,7 @@ import CreateIssueService from '../services/CreateIssueService';
 
 const issueRouter = Router();
 const issuesRepository = new IssuesRepository();
+// Pass the repository as an argument to the service's constructor
 const createIssueService = new CreateIssueService(issuesRepository);
 
 issueRouter.post('/', (req, res) => {
