@@ -14,12 +14,6 @@ class IssuesRepository {
     this.issues = [];
   }
 
-  public findByDate(date: Date): Issue | null {
-    const findIssue = this.issues.find(issue => isEqual(date, issue.date));
-
-    return findIssue || null;
-  }
-
   public create({ owner, message, date }: CreateIssueDTO): Issue {
     const issue = new Issue({ owner, message, date });
 
