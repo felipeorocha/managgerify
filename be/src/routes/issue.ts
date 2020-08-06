@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { parseISO } from 'date-fns';
 import IssuesRepository from '../repositories/IssuesRepository';
-import CreateIssueService from '../services/createIssueService';
+import CreateIssueService from '../services/CreateIssueService';
 
 const issueRouter = Router();
 const issuesRepository = new IssuesRepository();
